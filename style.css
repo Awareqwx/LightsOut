@@ -8,6 +8,7 @@
     border: 5px ridge gray;
     padding: 10px;
     text-align: center;
+    font-family: Arial;
 }
 
 #label{
@@ -22,12 +23,18 @@
     border-bottom: 1px solid gray;
 }
 
-.puzzletile{
+.tilewrapper{
     width: 10%;
     height: 10%;
     margin: 5% 0 0 5%;
     display: inline-block;
     vertical-align: top;
+}
+
+.puzzletile{
+    width: 100%;
+    height: 100%;
+    margin: 0;
     box-shadow: 1px 1px 1px black;
 }
 

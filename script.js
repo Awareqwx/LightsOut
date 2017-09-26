@@ -1,6 +1,7 @@
 var puzzMoves;
 var puzzBest;
 var puzzPlayed=false;
+var puzzHiding
 
 $(document).ready(function()
 {
@@ -8,7 +9,7 @@ $(document).ready(function()
     randomizePuzzle();
     $(".puzzletile").click(function()
     {
-        if(!done)
+        if(!done && !puzzHiding)
         {
             switchPuzzle($(this).attr("posx"), $(this).attr("posy"));
             puzzMoves++;
@@ -21,22 +22,32 @@ $(document).ready(function()
         }
     });
     $("#reset").click(function(){
-        done = false;
-        randomizePuzzle();
-        updatepuzzMoves();
+        if(!puzzHiding)
+        {
+            done = false;
+            randomizePuzzle();
+            updatepuzzMoves();
+        }
     });
 });
 
-function randomizePuzzle()
+async function randomizePuzzle()
 {
     var x, y;
+    $(".puzzletile").each(function(){
+        $(this).slideUp();
+    });
+    puzzMoves = 0;
+    puzzHiding = true;
+    await sleep(500);
     for(var i = 0; i <= 30; i++)
     {
         x = Math.trunc(Math.random() * 6 + 1);
         y = Math.trunc(Math.random() * 6 + 1);
         switchPuzzle(x, y);
     }
-    puzzMoves = 0;
+    $(".puzzletile").slideDown();
+    puzzHiding = false;
 }
 function switchPuzzle(x, y)
 {
@@ -108,3 +119,7 @@ function endGame()
     updatepuzzMoves(1);
     puzzPlayed = true;
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
